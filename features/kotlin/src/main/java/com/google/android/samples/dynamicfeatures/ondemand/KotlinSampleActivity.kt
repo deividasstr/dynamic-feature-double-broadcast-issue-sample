@@ -16,9 +16,13 @@
 
 package com.google.android.samples.dynamicfeatures.ondemand
 
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import com.google.android.samples.dynamicfeatures.BaseSplitActivity
+import com.google.android.samples.dynamicfeatures.MainActivity
 import com.google.android.samples.dynamicfeatures.ondemand.kotlin.R
+import kotlinx.android.synthetic.main.activity_feature_kotlin.*
 
 /** A simple Activity displaying some text, written in Kotlin. */
 class KotlinSampleActivity : BaseSplitActivity() {
@@ -26,6 +30,13 @@ class KotlinSampleActivity : BaseSplitActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_feature_kotlin)
-    }
 
+        button.setOnClickListener {
+            val i = Intent("$packageName.xmpa.receiver")
+            i.setPackage(packageName)
+            i.putExtra(CustomBroadcastReceiver.EXTRA, "value string")
+            sendBroadcast(i)
+            Log.e(MainActivity.TAG, "Broadcast sent")
+        }
+    }
 }

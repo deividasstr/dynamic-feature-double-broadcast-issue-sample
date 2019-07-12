@@ -34,6 +34,7 @@ import com.google.android.play.core.splitinstall.SplitInstallRequest
 import com.google.android.play.core.splitinstall.SplitInstallSessionState
 import com.google.android.play.core.splitinstall.SplitInstallStateUpdatedListener
 import com.google.android.play.core.splitinstall.model.SplitInstallSessionStatus
+import com.google.gson.Gson
 import java.util.Locale
 
 private const val PACKAGE_NAME = "com.google.android.samples.dynamicfeatures.ondemand"
@@ -144,8 +145,27 @@ class MainActivity : BaseSplitActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var progressText: TextView
 
+
+    private fun logBroadcastReceivers() {
+        val list = packageManager.queryBroadcastReceivers(Intent("com.google.android.samples.dynamicfeatures.xmpa.receiver"), 0)
+
+        Log.e(TAG, "Broadcast receiver list size ${list.size}")
+
+        list.forEachIndexed { index, resolveInfo ->
+            var jsoned = Gson().toJson(resolveInfo)
+            val i = 3000
+            while (jsoned.length > i) {
+                Log.e(TAG, "Broadcast receiver $index: ${jsoned.substring(0, i)}")
+                jsoned = jsoned.substring(i)
+            }
+            Log.e(TAG, "Broadcast receiver $index: $jsoned")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        logBroadcastReceivers()
+
         setTitle(R.string.app_name)
         setContentView(R.layout.activity_main)
         manager = SplitInstallManagerFactory.create(this)
@@ -369,6 +389,9 @@ class MainActivity : BaseSplitActivity() {
         buttons.visibility = View.VISIBLE
     }
 
+    companion object {
+        const val TAG = "TEST_CASE"
+    }
 }
 
 fun MainActivity.toastAndLog(text: String) {
