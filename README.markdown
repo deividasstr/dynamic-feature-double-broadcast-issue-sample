@@ -7,4 +7,4 @@ This sample demonstrates the double broadcast receiver events on dynamic feature
 3. Click `START KOTLIN FEATURE`
 4. Click `SEND BROADCAST`. The sending even is logged followed by 2 receiving events.
 
-The receiver is called 'CustomBroadcastReceiver' and the event is triggered in `KotlinSampleActivity`.
+The receiver is called `CustomBroadcastReceiver` and the event is triggered in `KotlinSampleActivity`.
